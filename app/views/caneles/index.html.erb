@@ -1,0 +1,33 @@
+<h1>Listing caneles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Started from</th>
+      <th>Discontinued in</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @caneles.each do |canele| %>
+      <tr>
+        <td><%= canele.name %></td>
+        <td><%= canele.price %></td>
+        <td><%= canele.started_from %></td>
+        <td><%= canele.discontinued_in %></td>
+        <td><%= link_to 'Show', canele %></td>
+        <td><%= link_to 'Edit', edit_canele_path(canele) %></td>
+        <td><%= link_to 'Destroy', canele, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Canele', new_canele_path %>
