@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Bought on:</strong>
+  <%= @order.bought_on %>
+</p>
+
+<p>
+  <strong>Canele:</strong>
+  <%= @order.canele_id %>
+</p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @order.count %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>

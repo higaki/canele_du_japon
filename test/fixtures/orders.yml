@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bought_on: 2014-01-04
+  canele_id: 1
+  count: 1
+
+two:
+  bought_on: 2014-01-04
+  canele_id: 1
+  count: 1
