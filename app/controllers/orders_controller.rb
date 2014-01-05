@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @caneles = Canele.all
   end
 
   # GET /orders/1/edit
@@ -26,6 +27,7 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    @order.canele_id = order_params[:canele_id]
 
     respond_to do |format|
       if @order.save

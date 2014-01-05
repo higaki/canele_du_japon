@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :canele_id %><br>
-    <%= f.number_field :canele_id %>
+    <%= f.select :canele_id, @caneles.map{|canele| [canele.name, canele.id]} %>
   </div>
   <div class="field">
     <%= f.label :count %><br>
