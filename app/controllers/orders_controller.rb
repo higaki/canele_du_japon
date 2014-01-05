@@ -16,7 +16,10 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
-    @caneles = Canele.all
+    @order.bought_on = Time.now
+    @caneles = Canele.where(
+      'started_from <= ? AND discontinued_in >= ?',
+      @order.bought_on, @order.bought_on)
   end
 
   # GET /orders/1/edit
