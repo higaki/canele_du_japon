@@ -1,7 +1,36 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+data = <<EOF.lines.map{|i| i.strip.split(/\t+/)}
+しろ		100	2012-05-22	9999-12-31
+ほうじ茶	120	2012-05-22	9999-12-31
+黒糖くるみ	120	2012-05-22	9999-12-31
+抹茶あんこ	120	2012-05-22	9999-12-31
+黒豆きなこ	130	2012-05-22	9999-12-31
+あんず		130	2012-05-22	9999-12-31
+雪中にんじん	130	2014-01-01	2014-01-31
+ヘーゼルナッツ	130	2014-01-01	2014-01-31
+ゆず		130	2013-12-01	2013-12-31
+クランベリーとホワイトチョコ	130	2013-12-01	2013-12-31
+生姜		130	2013-11-01	2013-11-30
+栗		130	2013-11-01	2013-11-30
+林檎		130	2013-10-01	2013-10-31
+かぼちゃ	130	2013-10-01	2013-10-31
+お芋		130	2013-09-01	2013-09-30
+いちじく	130	2013-09-01	2013-09-30
+しお		130	2013-08-01	2013-08-31
+ココナッツ	130	2013-08-01	2013-08-31
+桃		130	2013-07-01	2013-07-31
+とうもろこし	130	2013-07-01	2013-07-31
+れもん		130	2013-06-01	2013-06-30
+ポン抹茶	130	2013-06-01	2013-06-30
+ブルーベリー	130	2013-05-01	2013-05-31
+苺		130	2013-05-01	2013-05-31
+みたらし	130	2013-04-01	2013-04-30
+よもぎ		130	2013-04-01	2013-04-30
+さくら		130	2013-03-01	2013-03-31
+EOF
+
+CaneRec = Struct.new(*%i[id name price started_from discontinued_in])
+
+data.each_with_index do |rec, i|
+  rec[1] = rec[1].to_i
+  Canele.create(CaneRec.new(i + 1, *rec).to_h)
+end
