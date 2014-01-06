@@ -17,20 +17,19 @@ class OrdersController < ApplicationController
   def new
     @order = Order.new
     @order.bought_on = Time.now
-    @caneles = Canele.where(
-      'started_from <= ? AND discontinued_in >= ?',
-      @order.bought_on, @order.bought_on)
+    _form @order
   end
 
   # GET /orders/1/edit
   def edit
+    _form @order
   end
 
   # POST /orders
   # POST /orders.json
   def create
     @order = Order.new(order_params)
-    @order.canele_id = order_params[:canele_id]
+    @order.bought_on = params[:bought_on]
 
     respond_to do |format|
       if @order.save
@@ -76,5 +75,11 @@ class OrdersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
       params.require(:order).permit(:bought_on, :canele_id, :count)
+    end
+
+    def _form(order)
+      @caneles = Canele.where(
+        'started_from <= ? AND discontinued_in >= ?',
+        order.bought_on, order.bought_on)
     end
 end
