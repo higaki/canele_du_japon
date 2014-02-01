@@ -1,5 +1,7 @@
 CANELEduJAPON::Application.routes.draw do
-  resources :orders
+  resources :orders do
+    get ":year/:month/:day/new", action: "new", on: :collection, as: "with_date"
+  end
 
   resources :caneles
 

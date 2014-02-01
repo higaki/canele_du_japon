@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Order', new_order_path %>
+<%= link_to 'New Order', with_date_orders_path(year: Time.now.year, month: Time.now.month, day: Time.now.day) %>

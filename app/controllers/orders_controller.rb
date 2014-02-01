@@ -16,29 +16,37 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
-    @order.bought_on = Time.now
-    _form @order
+    @time = 
+      Time.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+    @caneles = saled_caneles
+    @order = Order.new(bought_on: @time.strftime('%Y-%m-%d'))
   end
 
   # GET /orders/1/edit
   def edit
-    _form @order
+    @time = @order.bought_on
+    @caneles = saled_caneles
   end
 
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
-    @order.bought_on = params[:bought_on]
+    date = Date.parse(order_params[:bought_on])
+    @time = Time.new(date.year, date.month, date.day)
+
+    @orders = order_params
+      .reject{|order,| order == "bought_on"}.values
+      .reject{|order| order[:count].empty? || order[:count].to_i == 0}
+      .map do |order|
+      Order.create(
+        bought_on: @time, canele_id: order[:canele_id], count: order[:count])
+    end
 
     respond_to do |format|
-      if @order.save
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @order }
+      if @orders.any?{|o| o.id.nil?}
+        format.html {render action: 'new'}
       else
-        format.html { render action: 'new' }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+        format.html {redirect_to orders_path}
       end
     end
   end
@@ -75,12 +83,11 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:bought_on, :canele_id, :count)
+      params.require(:order).permit(:bought_on, :canele_id, :count,
+        *Canele.all.map{|c| {c.id.to_s => [:count, :canele_id]}})
     end
 
-    def _form(order)
-      @caneles = Canele.where(
-        'started_from <= ? AND discontinued_in >= ?',
-        order.bought_on, order.bought_on)
+    def saled_caneles
+      Canele.where('started_from <= ? AND discontinued_in >= ?', @time, @time)
     end
 end
