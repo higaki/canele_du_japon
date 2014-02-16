@@ -1,30 +1,44 @@
 <h1>New order</h1>
 
-<!--%= render 'form' %-->
 <%= form_for(@order) do |f| %>
   <% if @order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
 
       <ul>
-      <% @order.errors.full_messages.each do |msg| %>
+        <% @order.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
-      <% end %>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.label :bought_on %><br>
+    <%= f.label :bought_on %>
     <%= f.text_field :bought_on %>
   </div>
-  <% @caneles.each do |canele| %>
-    <div class="field">
-      <%= canele.name %>
-      <%= f.number_field :count, index: canele.id %>
-      <%= f.hidden_field :canele_id, index: canele.id, value: canele.id %>
-    </div>
-  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Canele</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @caneles.each do |canele| %>
+        <div class="field">
+          <tr>
+	    <td><%= canele.name %></td>
+   	    <td><%= f.number_field :count, index: canele.id %>
+	      <%= f.hidden_field :canele_id, index: canele.id, value: canele.id %></td>
+	  </tr>
+	</div>
+      <% end %>
+    </tbody>
+  </table>
+
   <div class="actions">
     <%= f.submit %>
   </div>
